@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="com.oleksandra.demo:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/com_oleksandra_demo_jar</output-path>
+    <root id="archive" name="com.oleksandra.demo.jar">
+      <element id="module-output" name="com.oleksandra.demo" />
+    </root>
+  </artifact>
+</component>
