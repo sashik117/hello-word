@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/libs" />
+      <root url="jar://$PROJECT_DIR$/src/com/oleksandra/guesstheword/library/gson-2.11.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/com/oleksandra/guesstheword/library/javafaker-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <excluded>
+      <root url="jar://$PROJECT_DIR$/libs/gson-2.11.0.jar!/" />
+    </excluded>
+    <jarDirectory url="file://$PROJECT_DIR$/libs" recursive="false" />
+  </library>
+</component>
