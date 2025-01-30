@@ -1,23 +1,64 @@
 package console;
 
 import com.google.gson.Gson;
+import dto.UserLoginDto;
+import dto.UserRegisterDto;
 import entity.User;
 import entity.Word;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
+import reprository.UserRepository;
+import service.EmailService;
 import service.GameService;
+import service.UserService;
 
 public class Main {
 
     public static void main(String[] args) {
-        GameService gameService = new GameService();
+        Scanner scanner = new Scanner(System.in);
         Gson gson = new Gson();
 
-        // Створення користувача та слова
-        User user = gameService.createUser();
-        Word word = gameService.createWord();
+        // Ініціалізація сервісів
+        UserRepository userRepository = new UserRepository();
+        EmailService emailService = new EmailService();
+        UserService userService = new UserService(userRepository, emailService);
+        GameService gameService = new GameService();
 
-        // Створення гри
+        // Вибір: реєстрація чи вхід
+        System.out.println("1 - Реєстрація, 2 - Вхід");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Пропускаємо символ нового рядка
+
+        User user = null;
+        if (choice == 1) {
+            System.out.println("Введіть ім'я:");
+            String name = scanner.nextLine();
+
+            System.out.println("Введіть email:");
+            String email = scanner.nextLine();
+
+            System.out.println("Введіть пароль:");
+            String password = scanner.nextLine();
+
+            user = userService.register(new UserRegisterDto(name, email, password));
+            System.out.println("Реєстрація успішна: " + user);
+        } else if (choice == 2) {
+            System.out.println("Введіть email:");
+            String email = scanner.nextLine();
+
+            System.out.println("Введіть пароль:");
+            String password = scanner.nextLine();
+
+            user = userService.login(new UserLoginDto(email, password));
+            System.out.println("Вхід успішний: " + user);
+        } else {
+            System.out.println("Невірний вибір.");
+            return;
+        }
+
+        // Створення слова та гри
+        Word word = gameService.createWord();
         var game = gameService.createGame(user, word);
 
         // Збереження гри у файл

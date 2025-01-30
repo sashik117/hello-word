@@ -28,8 +28,12 @@ public class GameService {
     }
 
     public User createUser() {
-        return new User(faker.name().fullName());
+        String firstName = faker.name().firstName();
+        String lastName = faker.name().lastName();
+        String email = faker.internet().emailAddress();
+        return new User(firstName, lastName, email);
     }
+
 
     public Word createWord() {
         UUID id = UUID.randomUUID();

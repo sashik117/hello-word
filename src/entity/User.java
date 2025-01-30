@@ -6,12 +6,16 @@ public class User {
 
     private final UUID id;
     private final String name;
+    private final String email;
+    private final String password; // Зберігаємо хеш пароля
     private int score;
     private int attempts;
 
-    public User(String name) {
+    public User(String name, String email, String password) {
         this.id = UUID.randomUUID();
         this.name = name;
+        this.email = email;
+        this.password = password;
         this.score = 0;
         this.attempts = 0;
     }
@@ -23,6 +27,14 @@ public class User {
     public String getName() {
         return name;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    } // Використовуємо для перевірки пароля
 
     public int getScore() {
         return score;
@@ -45,6 +57,7 @@ public class User {
         return "User{" +
             "id=" + id +
             ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
             ", score=" + score +
             ", attempts=" + attempts +
             '}';
