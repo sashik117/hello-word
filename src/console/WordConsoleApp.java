@@ -3,11 +3,14 @@ package console;
 import entity.Word;
 import java.util.Scanner;
 import java.util.UUID;
+import reprository.WordRepository;
 import service.WordService;
+import unitofwork.UnitOfWork;
 
 public class WordConsoleApp {
 
-    private static final WordService wordService = new WordService(); // Сервіс для роботи зі словами
+    private static final WordService wordService = new WordService(new WordRepository(),
+        new UnitOfWork());
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -22,7 +25,7 @@ public class WordConsoleApp {
             System.out.println("5. Generate Random Words");
             System.out.println("6. Save Words to File");
             System.out.println("7. Load Words from File");
-            System.out.println("8. Delete All Words"); // Новий пункт меню
+            System.out.println("8. Delete All Words");
             System.out.println("9. Exit");
             System.out.print("Choose an option: ");
 
@@ -51,7 +54,7 @@ public class WordConsoleApp {
                     loadWordsFromFile();
                     break;
                 case "8":
-                    deleteAllWords(); // Виклик нового методу
+                    deleteAllWords();
                     break;
                 case "9":
                     running = false;
@@ -146,10 +149,18 @@ public class WordConsoleApp {
     }
 
     private static void deleteWord() {
-        System.out.print("Enter Word ID or text to delete: ");
-        String identifier = scanner.nextLine();
+        System.out.print("Enter Word ID to delete: ");
+        String idInput = scanner.nextLine();
 
-        boolean isDeleted = wordService.deleteWord(identifier);
+        UUID id;
+        try {
+            id = UUID.fromString(idInput);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid ID format.");
+            return;
+        }
+
+        boolean isDeleted = wordService.deleteWord(id);
         if (isDeleted) {
             System.out.println("Word deleted.");
         } else {
@@ -158,7 +169,7 @@ public class WordConsoleApp {
     }
 
     private static void deleteAllWords() {
-        wordService.deleteAllWords(); // Викликаємо метод для видалення всіх слів
+        wordService.deleteAllWords();
         System.out.println("All words deleted.");
     }
 }
